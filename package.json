@@ -1,0 +1,19 @@
+{
+  "name": "sting-back-end",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/dbrazl/sting-back-end.git",
+  "author": "dbrazl <danielbrazlopes16@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "sucrase-node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sucrase": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
