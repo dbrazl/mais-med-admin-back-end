@@ -1,105 +1,109 @@
+const pharms = [
+  {
+    name: "Drogaria BelaMais",
+    distance: 500,
+    neighborhood: "Bela Vista",
+    location: {
+      latitude: 1.0,
+      longitude: 1.0,
+    },
+    medicines: [
+      {
+        name: "Dipirona 100mg",
+        quantity: 50,
+      },
+      {
+        name: "Vacina COVID-19",
+        quantity: 2,
+      },
+    ],
+  },
+  {
+    name: "Drogaria Eucaliptal",
+    distance: 1100,
+    neighborhood: "Eucaliptal",
+    location: {
+      latitude: 1.0,
+      longitude: 1.0,
+    },
+    medicines: [
+      {
+        name: "Paracetamol 100mg",
+        quantity: 152,
+      },
+      {
+        name: "Vacina COVID-19",
+        quantity: 200,
+      },
+      {
+        name: "Dipirona 100mg",
+        quantity: 75,
+      },
+      {
+        name: "Ritalina 100mg",
+        quantity: 20,
+      },
+    ],
+  },
+  {
+    name: "Drogaria Retiro",
+    distance: 251,
+    neighborhood: "Conforto",
+    location: {
+      latitude: 1.0,
+      longitude: 1.0,
+    },
+    medicines: [
+      {
+        name: "Paracetamol 100mg",
+        quantity: 63,
+      },
+      {
+        name: "Vacina COVID-19",
+        quantity: 70,
+      },
+      {
+        name: "Dipirona 100mg",
+        quantity: 50,
+      },
+      {
+        name: "Ritalina 100mg",
+        quantity: 70,
+      },
+    ],
+  },
+  {
+    name: "Drogaria +Med",
+    distance: 251,
+    neighborhood: "Laranjal",
+    location: {
+      latitude: 1.0,
+      longitude: 1.0,
+    },
+    medicines: [
+      {
+        name: "Vacina COVID-19",
+        quantity: 25,
+      },
+      {
+        name: "Dipirona 100mg",
+        quantity: 150,
+      },
+      {
+        name: "Ritalina 100mg",
+        quantity: 30,
+      },
+    ],
+  },
+];
+
 class PharmsController {
   index(request, response) {
-    const { medicineName } = request.params;
+    return response.status(200).json(pharms);
+  }
 
-    const pharms = [
-      {
-        name: "Drogaria BelaMais",
-        distance: 500,
-        neighborhood: "Bela Vista",
-        location: {
-          latitude: 1.0,
-          longitude: 1.0,
-        },
-        medicines: [
-          {
-            name: "Dipirona 100mg",
-            quantity: 50,
-          },
-          {
-            name: "Vacina COVID-19",
-            quantity: 2,
-          },
-        ],
-      },
-      {
-        name: "Drogaria Eucaliptal",
-        distance: 1100,
-        neighborhood: "Eucaliptal",
-        location: {
-          latitude: 1.0,
-          longitude: 1.0,
-        },
-        medicines: [
-          {
-            name: "Paracetamol 100mg",
-            quantity: 152,
-          },
-          {
-            name: "Vacina COVID-19",
-            quantity: 200,
-          },
-          {
-            name: "Dipirona 100mg",
-            quantity: 75,
-          },
-          {
-            name: "Ritalina 100mg",
-            quantity: 20,
-          },
-        ],
-      },
-      {
-        name: "Drogaria Retiro",
-        distance: 251,
-        neighborhood: "Conforto",
-        location: {
-          latitude: 1.0,
-          longitude: 1.0,
-        },
-        medicines: [
-          {
-            name: "Paracetamol 100mg",
-            quantity: 63,
-          },
-          {
-            name: "Vacina COVID-19",
-            quantity: 70,
-          },
-          {
-            name: "Dipirona 100mg",
-            quantity: 50,
-          },
-          {
-            name: "Ritalina 100mg",
-            quantity: 70,
-          },
-        ],
-      },
-      {
-        name: "Drogaria +Med",
-        distance: 251,
-        neighborhood: "Laranjal",
-        location: {
-          latitude: 1.0,
-          longitude: 1.0,
-        },
-        medicines: [
-          {
-            name: "Vacina COVID-19",
-            quantity: 25,
-          },
-          {
-            name: "Dipirona 100mg",
-            quantity: 150,
-          },
-          {
-            name: "Ritalina 100mg",
-            quantity: 30,
-          },
-        ],
-      },
-    ];
+  indexByMedicine(request, response) {
+    const { medicineName } = request.params;
 
     const pharmsWithMedicine = pharms
       .map((pharm) => {
