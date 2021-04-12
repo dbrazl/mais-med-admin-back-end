@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import PharmsController from "./controllers/PharmsController";
 import MedicinesController from "./controllers/MedicinesController";
+import VacineController from "./controllers/VacineController";
 
 const app = new Router();
 
@@ -11,5 +12,6 @@ app.get(
   PharmsController.indexByMedicine
 );
 app.get("/medicines", MedicinesController.index);
+app.get("/vacine/dates", VacineController.indexDates);
 
 export default app;
