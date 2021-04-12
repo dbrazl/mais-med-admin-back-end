@@ -3,6 +3,7 @@ class VacineController {
     return response.status(200).json([
       {
         name: "Vacine COVID-19",
+        date: "20/11/2020",
         schedule: "15/11/2020 as 15:15 a 15:30 horas",
       },
     ]);
