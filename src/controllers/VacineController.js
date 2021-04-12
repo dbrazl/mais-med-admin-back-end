@@ -21,6 +21,14 @@ class VacineController {
         "16:15 as 16:30 horas",
       ]);
   }
+
+  store(request, response) {
+    return response.status(201).json({
+      message: "Attendance registered",
+      date: request.body.date,
+      schedule: request.body.schedule,
+    });
+  }
 }
 
 export default new VacineController();
