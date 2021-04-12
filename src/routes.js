@@ -12,6 +12,7 @@ app.get(
   PharmsController.indexByMedicine
 );
 app.get("/medicines", MedicinesController.index);
+app.get("/vacine", VacineController.index);
 app.get("/vacine/dates", VacineController.indexDates);
 app.get("/vacine/schedules", VacineController.indexSchedules);
 app.post("/vacine", VacineController.store);
