@@ -1,8 +1,10 @@
 import { Router } from "express";
 
-import PharmsController from "./controllers/PharmsController";
-import MedicinesController from "./controllers/MedicinesController";
-import VacineController from "./controllers/VacineController";
+import PharmsController from "../controllers/PharmsController";
+import MedicinesController from "../controllers/MedicinesController";
+import VacineController from "../controllers/VacineController";
+
+import MedicinesIndexValidator from "../middlewares/validators/MedicinesController/IndexValidator";
 
 const app = new Router();
 
@@ -11,7 +13,7 @@ app.get(
   "/pharms/medicine/available/:medicineName",
   PharmsController.indexByMedicine
 );
-app.get("/medicines", MedicinesController.index);
+app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
 app.get("/vacine", VacineController.index);
 app.get("/vacine/dates", VacineController.indexDates);
 app.get("/vacine/schedules", VacineController.indexSchedules);

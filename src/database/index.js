@@ -1,9 +1,11 @@
 import Mongoose from "mongoose";
 
+import { databaseConfig } from "../config/database";
+
 class Database {
   init() {
     try {
-      Mongoose.connect(process.env.MONGO_URL, {
+      Mongoose.connect(databaseConfig.mongoURL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
