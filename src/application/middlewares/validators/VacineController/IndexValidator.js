@@ -1,13 +1,12 @@
 import * as zod from "zod";
 import { CustomError } from "../../../../services/customError";
-import verifyCpf from "../../../../services/cpf";
 import { errorHandler } from "../helpers/handlers";
 
 async function IndexValidator(request, response, next) {
   try {
     const schema = zod.object({
       page: zod.string(),
-      cpf: zod.string(),
+      hashCpf: zod.string(),
     });
     schema.parse(request.query);
 
@@ -33,14 +32,14 @@ async function IndexValidator(request, response, next) {
         ],
       });
 
-    const cpf = request.query.cpf;
-    const isValidCpf = verifyCpf(cpf);
+    const hashCpf = request.query.hashCpf;
+    const isValidCpf = hashCpf.length === 60;
 
     if (!isValidCpf)
       throw new CustomError({
         errors: [
           {
-            path: ["cpf"],
+            path: ["hashCpf"],
             message: "The CPF isn't valid",
           },
         ],
