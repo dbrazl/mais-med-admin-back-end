@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import PharmsController from "../controllers/PharmsController";
-import MedicinesController from "../controllers/MedicinesController";
-import VacineController from "../controllers/VacineController";
+import PharmsController from "../../application/controllers/PharmsController";
+import MedicinesController from "../../application/controllers/MedicinesController";
+import VacineController from "../../application/controllers/VacineController";
 
-import MedicinesIndexValidator from "../middlewares/validators/MedicinesController/IndexValidator";
+import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
 
 const app = new Router();
 

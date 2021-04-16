@@ -6,8 +6,8 @@
   "author": "dbrazl <danielbrazlopes16@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "sucrase-node ./src/server.js",
-    "dev": "nodemon ./src/server.js"
+    "start": "sucrase-node ./src/infraesctruture/server.js",
+    "dev": "nodemon ./src/infraesctruture/server.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
