@@ -11,6 +11,6 @@ const schema = new Schema({
   schedules: [schedule],
 });
 
-const Scheduling = model("Scheduling", schema);
+const VacineScheduling = model("VacineScheduling", schema);
 
-export { Scheduling };
+export { VacineScheduling };

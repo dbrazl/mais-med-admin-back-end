@@ -1,12 +1,13 @@
-import { Scheduling } from "../models/Scheduling";
+import { VacineScheduling } from "../models/VacineScheduling";
+import { isToday, isAfter } from "date-fns";
 
-class SchedulingController {
-  async indexDates(request, response) {
+class VacineSchedulingController {
+  async indexAvailableDates(request, response) {
     try {
       const { page } = request.query;
       const offset = parseInt(page) * 10;
 
-      const schedulings = await Scheduling.find()
+      const schedulings = await VacineScheduling.find()
         .limit(10)
         .skip(offset)
         .select("-_id -__v");
@@ -21,12 +22,10 @@ class SchedulingController {
       const allDates = [...new Set(datesRepeated)];
       const datesNotExpired = allDates
         .map((date) => {
-          const today = new Date().getTime();
-
           const [day, month, year] = date.split("/");
-          const dateTime = new Date(year, month - 1, day).getTime();
+          const dateTime = new Date(year, month - 1, day);
 
-          if (dateTime >= today) return date;
+          if (isToday(dateTime) || isAfter(dateTime, new Date())) return date;
 
           return null;
         })
@@ -38,11 +37,13 @@ class SchedulingController {
     }
   }
 
-  async indexSchedules(request, response) {
+  async indexAvailableSchedules(request, response) {
     try {
       const { date } = request.query;
 
-      const scheduling = await Scheduling.findOne({ date }).select("-_id -__v");
+      const scheduling = await VacineScheduling.findOne({ date }).select(
+        "-_id -__v"
+      );
 
       if (!scheduling)
         return response.status(404).json({
@@ -69,4 +70,4 @@ class SchedulingController {
   }
 }
 
-export default new SchedulingController();
+export default new VacineSchedulingController();

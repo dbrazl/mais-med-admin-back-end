@@ -3,12 +3,12 @@ import { Router } from "express";
 import PharmsController from "../../application/controllers/PharmsController";
 import MedicinesController from "../../application/controllers/MedicinesController";
 import VacineController from "../../application/controllers/VacineController";
-import SchedulingController from "../../application/controllers/SchedulingController";
+import VacineSchedulingController from "../../application/controllers/VacineSchedulingController";
 
 import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
 import VacineIndexValidator from "../../application/middlewares/validators/VacineController/IndexValidator";
-import SchedulingIndexDatesValidator from "../../application/middlewares/validators/SchedulingController/IndexDatesValidator";
-import SchedulingIndexSchudulesValidator from "../../application/middlewares/validators/SchedulingController/IndexSchedulesValidator";
+import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
+import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
 
 const app = new Router();
 
@@ -21,13 +21,13 @@ app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
 app.get("/vacines", VacineIndexValidator, VacineController.index);
 app.get(
   "/vacine/dates",
-  SchedulingIndexDatesValidator,
-  SchedulingController.indexDates
+  VacineSchedulingIndexDatesValidator,
+  VacineSchedulingController.indexAvailableDates
 );
 app.get(
   "/vacine/schedules",
-  SchedulingIndexSchudulesValidator,
-  SchedulingController.indexSchedules
+  VacineSchedulingIndexSchudulesValidator,
+  VacineSchedulingController.indexAvailableSchedules
 );
 app.post("/vacine", VacineController.store);
 
