@@ -1,25 +1,27 @@
-class MedicinesController {
-  index(request, response) {
-    const pharms = [
-      {
-        name: "Dipirona 100mg",
-        quantity: 155,
-      },
-      {
-        name: "Paracetamol 100mg",
-        quantity: 52,
-      },
-      {
-        name: "Ritalina 100mg",
-        quantity: 10,
-      },
-      {
-        name: "Vacina COVID-19",
-        quantity: 100,
-      },
-    ];
+import { Medicine } from "../models/Medicine";
 
-    return response.status(200).json(pharms);
+class MedicinesController {
+  async index(request, response) {
+    const unityId = request.query.unityId;
+    const page = request.query.page;
+    const offset = parseInt(page) * 10;
+
+    try {
+      const medicines = await Medicine.find({ unityId })
+        .limit(10)
+        .skip(offset)
+        .select("-_id -__v -unityId");
+
+      if (medicines.length <= 0)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Don't have medicines on this page"],
+        });
+
+      return response.status(200).json(medicines);
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
   }
 }
 

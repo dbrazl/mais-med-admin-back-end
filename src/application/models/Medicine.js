@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const schema = new Schema({
   name: String,
   quantity: Number,
-  Unity: String,
+  unityId: String,
 });
 
 const Medicine = model("Medicine", schema);
