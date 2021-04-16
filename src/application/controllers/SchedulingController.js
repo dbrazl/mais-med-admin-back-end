@@ -50,7 +50,19 @@ class SchedulingController {
           reasons: ["Don't have scheduling for this date"],
         });
 
-      return response.status(200).json(scheduling.schedules);
+      const schedules = scheduling.schedules.filter(
+        (schedule) => !schedule.scheduled
+      );
+
+      if (schedules.length <= 0)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Don't have available schedules for this date"],
+        });
+
+      const labels = schedules.map((schedule) => schedule.label);
+
+      return response.status(200).json(labels);
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }
