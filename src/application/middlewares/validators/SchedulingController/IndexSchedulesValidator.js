@@ -6,6 +6,7 @@ async function IndexSchedulesValidator(request, response, next) {
   try {
     const schema = zod.object({
       page: zod.string(),
+      date: zod.string(),
     });
     schema.parse(request.query);
 
@@ -30,6 +31,16 @@ async function IndexSchedulesValidator(request, response, next) {
           },
         ],
       });
+
+    const date = request.query.date;
+
+    const dateSchema = zod
+      .string()
+      .refine((data) => data.match(/\//g)?.length === 2 && data.split("/")[2], {
+        path: ["date"],
+        message: "Date is malformmed",
+      });
+    dateSchema.parse(date);
 
     return next();
   } catch (error) {

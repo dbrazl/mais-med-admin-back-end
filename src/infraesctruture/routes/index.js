@@ -8,6 +8,7 @@ import SchedulingController from "../../application/controllers/SchedulingContro
 import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
 import VacineIndexValidator from "../../application/middlewares/validators/VacineController/IndexValidator";
 import SchedulingIndexDatesValidator from "../../application/middlewares/validators/SchedulingController/IndexDatesValidator";
+import SchedulingIndexSchudulesValidator from "../../application/middlewares/validators/SchedulingController/IndexSchedulesValidator";
 
 const app = new Router();
 
@@ -23,7 +24,11 @@ app.get(
   SchedulingIndexDatesValidator,
   SchedulingController.indexDates
 );
-app.get("/vacine/schedules", VacineController.indexSchedules);
+app.get(
+  "/vacine/schedules",
+  SchedulingIndexSchudulesValidator,
+  SchedulingController.indexSchedules
+);
 app.post("/vacine", VacineController.store);
 
 export default app;

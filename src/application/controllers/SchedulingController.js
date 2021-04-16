@@ -37,6 +37,24 @@ class SchedulingController {
       return response.status(500).json({ message: error.message });
     }
   }
+
+  async indexSchedules(request, response) {
+    try {
+      const { date } = request.query;
+
+      const scheduling = await Scheduling.findOne({ date }).select("-_id -__v");
+
+      if (!scheduling)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Don't have scheduling for this date"],
+        });
+
+      return response.status(200).json(scheduling.schedules);
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new SchedulingController();
