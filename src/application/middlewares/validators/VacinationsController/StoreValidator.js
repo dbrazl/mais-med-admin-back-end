@@ -6,34 +6,22 @@ import { errorHandler } from "../helpers/handlers";
 async function StoreValidator(request, response, next) {
   try {
     const schema = zod.object({
-      cpf: zod.string(),
+      rawCpf: zod.string(),
       date: zod.string(),
       schedule: zod.string(),
     });
     schema.parse(request.body);
 
-    const cpf = request.body.cpf;
+    const rawCpf = request.body.rawCpf;
 
-    const CPF_LENGTH = 11;
+    const RAW_CPF_LENGTH = 60;
 
-    if (cpf.length !== CPF_LENGTH)
+    if (rawCpf.length !== RAW_CPF_LENGTH)
       throw new CustomError({
         errors: [
           {
-            path: ["cpf"],
-            message: "The CPF is not valid",
-          },
-        ],
-      });
-
-    const isCpfValid = verifyCpf(cpf);
-
-    if (!isCpfValid)
-      throw new CustomError({
-        errors: [
-          {
-            path: ["cpf"],
-            message: "The CPF is not valid",
+            path: ["rawCpf"],
+            message: "The rawCpf is not valid",
           },
         ],
       });

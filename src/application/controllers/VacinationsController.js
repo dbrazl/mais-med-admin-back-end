@@ -40,7 +40,7 @@ class VacinationController {
 
   async store(request, response) {
     try {
-      const { cpf, date, schedule } = request.body;
+      const { hashCpf, date, schedule } = request.body;
 
       const scheduling = await VacineScheduling.findOne({ date });
 
@@ -50,28 +50,26 @@ class VacinationController {
           reasons: ["This date aren't available to scheduling"],
         });
 
-      const hasAvailableSchedule = !!scheduling.schedules.find(
+      const hasScheduled = !!scheduling.schedules.find(
         (one) => one.label === schedule
-      );
+      )?.scheduled;
 
-      if (!hasAvailableSchedule)
+      if (hasScheduled)
         return response.status(404).json({
           message: "Not found",
           reasons: ["This schedule aren't available to scheduling"],
         });
-
-      const rawCpf = await encodeCpf(cpf);
 
       const scheduleIndex = scheduling.schedules.findIndex(
         (one) => one.label === schedule
       );
 
       scheduling.schedules[scheduleIndex].scheduled = true;
-      scheduling.schedules[scheduleIndex].scheduledByUser = rawCpf;
+      scheduling.schedules[scheduleIndex].scheduledByUser = hashCpf;
       await scheduling.save();
 
       await Vacination.create({
-        rawCpf,
+        hashCpf,
         date,
         schedule,
       });
@@ -80,7 +78,6 @@ class VacinationController {
         message: "Attendance registered",
         date: request.body.date,
         schedule: request.body.schedule,
-        rawCpf,
       });
     } catch (error) {
       return response.status(500).json({ message: error.message });
