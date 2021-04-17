@@ -28,7 +28,7 @@ class PharmsController {
   indexByMedicine(request, response) {
     const { medicineName } = request.params;
 
-    const pharmsWithMedicine = pharms
+    const pharmsWithMedicine = mock
       .map((pharm) => {
         const founded = !!pharm.medicines.find((medicine) =>
           medicine.name.toLowerCase().includes(medicineName.toLowerCase())
