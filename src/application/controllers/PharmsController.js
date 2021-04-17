@@ -1,120 +1,28 @@
 import _ from "lodash";
-
-const pharms = [
-  {
-    name: "UBS - Unidade Básica de Saúde José Gaspar Abreu Magalhães",
-    distance: 500,
-    neighborhood: "Rústico",
-    location: {
-      latitude: -22.5210401,
-      longitude: -44.1124399,
-    },
-    medicines: [
-      {
-        name: "Dipirona 100mg",
-        quantity: 50,
-        needToSchedule: false,
-      },
-      {
-        name: "Vacina COVID-19",
-        quantity: 2,
-        needToSchedule: true,
-      },
-    ],
-  },
-  {
-    name: "UBSF - Unidade Básica de Saúde da Família",
-    distance: 1100,
-    neighborhood: "Eucaliptal",
-    location: {
-      latitude: -22.5246271,
-      longitude: -44.1212279,
-    },
-    medicines: [
-      {
-        name: "Paracetamol 100mg",
-        quantity: 152,
-        needToSchedule: false,
-      },
-      {
-        name: "Vacina COVID-19",
-        quantity: 200,
-        needToSchedule: true,
-      },
-      {
-        name: "Dipirona 100mg",
-        quantity: 75,
-        needToSchedule: false,
-      },
-      {
-        name: "Ritalina 100mg",
-        quantity: 20,
-        needToSchedule: true,
-      },
-    ],
-  },
-  {
-    name: "UBSF - Unidade Básica de Saúde Família Sebastião Rodrigues Ferreira",
-    distance: 251,
-    neighborhood: "Açude",
-    location: {
-      latitude: -22.5254075,
-      longitude: -44.1275994,
-    },
-    medicines: [
-      {
-        name: "Paracetamol 100mg",
-        quantity: 63,
-        needToSchedule: false,
-      },
-      {
-        name: "Vacina COVID-19",
-        quantity: 70,
-        needToSchedule: true,
-      },
-      {
-        name: "Dipirona 100mg",
-        quantity: 50,
-        needToSchedule: false,
-      },
-      {
-        name: "Ritalina 100mg",
-        quantity: 70,
-        needToSchedule: false,
-      },
-    ],
-  },
-  {
-    name: "Serviço de Pronto Atendimento do Conforto - CAIS Conforto",
-    distance: 251,
-    neighborhood: "Conforto",
-    location: {
-      latitude: -22.5222275,
-      longitude: -44.1225341,
-    },
-    medicines: [
-      {
-        name: "Vacina COVID-19",
-        quantity: 25,
-        needToSchedule: true,
-      },
-      {
-        name: "Dipirona 100mg",
-        quantity: 150,
-        needToSchedule: false,
-      },
-      {
-        name: "Ritalina 100mg",
-        quantity: 30,
-        needToSchedule: false,
-      },
-    ],
-  },
-];
+import { Pharms } from "../models/Pharms";
+import mock from "../../assets/mock/pharms";
 
 class PharmsController {
-  index(request, response) {
-    return response.status(200).json(pharms);
+  async index(request, response) {
+    try {
+      const { page } = request.query;
+      const offset = parseInt(page) * 10;
+
+      const pharms = await Pharms.find()
+        .limit(10)
+        .skip(offset)
+        .select("-_id -__v");
+
+      if (pharms.length <= 0)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Don't have pharms on this page"],
+        });
+
+      return response.status(200).json(pharms);
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
   }
 
   indexByMedicine(request, response) {
