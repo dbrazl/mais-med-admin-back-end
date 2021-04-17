@@ -6,22 +6,22 @@ import { errorHandler } from "../helpers/handlers";
 async function StoreValidator(request, response, next) {
   try {
     const schema = zod.object({
-      rawCpf: zod.string(),
+      hashCpf: zod.string(),
       date: zod.string(),
       schedule: zod.string(),
     });
     schema.parse(request.body);
 
-    const rawCpf = request.body.rawCpf;
+    const hashCpf = request.body.hashCpf;
 
     const RAW_CPF_LENGTH = 60;
 
-    if (rawCpf.length !== RAW_CPF_LENGTH)
+    if (hashCpf.length !== RAW_CPF_LENGTH)
       throw new CustomError({
         errors: [
           {
-            path: ["rawCpf"],
-            message: "The rawCpf is not valid",
+            path: ["hashCpf"],
+            message: "The hashCpf is not valid",
           },
         ],
       });
