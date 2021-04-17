@@ -7,7 +7,7 @@ class VacinationController {
       const { page, hashCpf } = request.query;
       const offset = parseInt(page) * 10;
 
-      const vacines = await Vacine.find({ hashCpf })
+      const vacines = await Vacination.find({ hashCpf })
         .limit(10)
         .skip(offset)
         .select("-_id -__v -hashCpf");
@@ -15,7 +15,7 @@ class VacinationController {
       if (vacines.length <= 0)
         return response.status(404).json({
           message: "Not found",
-          reasons: ["Don't have vacines scheduled on this page"],
+          reasons: ["Don't have vacinations scheduled on this page"],
         });
 
       return response.status(200).json(vacines);
@@ -66,6 +66,7 @@ class VacinationController {
         message: "Attendance registered",
         date: request.body.date,
         schedule: request.body.schedule,
+        rawCpf,
       });
     } catch (error) {
       return response.status(500).json({ message: error.message });
