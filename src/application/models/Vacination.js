@@ -3,7 +3,7 @@ import { encodeConfig } from "../../infraesctruture/config/encode";
 import bcrypt from "bcryptjs";
 
 const schema = new Schema({
-  rawCpf: String,
+  hashCpf: String,
   date: String,
   schedule: String,
 });
