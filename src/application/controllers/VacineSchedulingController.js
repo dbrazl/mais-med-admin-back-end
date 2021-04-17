@@ -1,5 +1,5 @@
 import { VacineScheduling } from "../models/VacineScheduling";
-import { isToday, isAfter } from "date-fns";
+import { isToday, isAfter, isBefore } from "date-fns";
 
 class VacineSchedulingController {
   async indexAvailableDates(request, response) {
@@ -40,6 +40,16 @@ class VacineSchedulingController {
   async indexAvailableSchedules(request, response) {
     try {
       const { date } = request.query;
+
+      const [day, month, year] = date.split("/");
+      const dateTime = new Date(year, month - 1, day);
+      const isDateInPast = isBefore(dateTime, new Date()) && !isToday(dateTime);
+
+      if (isDateInPast)
+        return response.status(404).json({
+          message: "Date in past",
+          reasons: ["The date is in past"],
+        });
 
       const scheduling = await VacineScheduling.findOne({ date }).select(
         "-_id -__v"
