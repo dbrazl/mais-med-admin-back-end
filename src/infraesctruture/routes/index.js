@@ -7,6 +7,7 @@ import VacineSchedulingController from "../../application/controllers/VacineSche
 
 import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
 import VacinationsIndexValidator from "../../application/middlewares/validators/VacinationsController/IndexValidator";
+import IndexHashCpfValidator from "../../application/middlewares/validators/VacinationsController/IndexHashCpfValidator";
 import VacinationsStoreValidator from "../../application/middlewares/validators/VacinationsController/StoreValidator";
 import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
 import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
@@ -30,7 +31,11 @@ app.get(
   VacineSchedulingIndexSchudulesValidator,
   VacineSchedulingController.indexAvailableSchedules
 );
-app.get("/vacine", VacinationsController.indexHashCpf);
+app.get(
+  "/vacine/hashCpf",
+  IndexHashCpfValidator,
+  VacinationsController.indexHashCpf
+);
 app.post("/vacine", VacinationsStoreValidator, VacinationsController.store);
 
 export default app;
