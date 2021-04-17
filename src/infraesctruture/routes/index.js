@@ -30,6 +30,7 @@ app.get(
   VacineSchedulingIndexSchudulesValidator,
   VacineSchedulingController.indexAvailableSchedules
 );
+app.get("/vacine", VacinationsController.indexHashCpf);
 app.post("/vacine", VacinationsStoreValidator, VacinationsController.store);
 
 export default app;

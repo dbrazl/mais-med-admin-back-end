@@ -24,6 +24,20 @@ class VacinationController {
     }
   }
 
+  async indexHashCpf(request, response) {
+    try {
+      const { cpf } = request.body;
+
+      const rawCpf = await encodeCpf(cpf);
+
+      return response.status(200).json({
+        rawCpf,
+      });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
+
   async store(request, response) {
     try {
       const { cpf, date, schedule } = request.body;
