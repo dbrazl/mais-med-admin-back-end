@@ -12,14 +12,12 @@ import VacinationsStoreValidator from "../../application/middlewares/validators/
 import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
 import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
 import PharmsIndexValidator from "../../application/middlewares/validators/PharmsController/IndexValidator";
-import PharmsIndexByMedicine from "../../application/middlewares/validators/PharmsController/IndexByMedicineValidator";
 
 const app = new Router();
 
 app.get("/pharms", PharmsIndexValidator, PharmsController.index);
 app.get(
   "/pharms/medicine/available/:medicineName",
-  PharmsIndexByMedicine,
   PharmsController.indexByMedicine
 );
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
