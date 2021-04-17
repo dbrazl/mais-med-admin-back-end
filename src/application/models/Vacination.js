@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { encodeConfig } from "../../infraesctruture/config/encode";
+import bcrypt from "bcryptjs";
 
 const schema = new Schema({
   rawCpf: String,

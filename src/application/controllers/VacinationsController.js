@@ -1,4 +1,5 @@
-import { Vacine, encodeCpf } from "../models/Vacine";
+import { Vacination, encodeCpf } from "../models/Vacination";
+import { VacineScheduling } from "../models/VacineScheduling";
 
 class VacinationController {
   async index(request, response) {
@@ -23,12 +24,52 @@ class VacinationController {
     }
   }
 
-  store(request, response) {
-    return response.status(201).json({
-      message: "Attendance registered",
-      date: request.body.date,
-      schedule: request.body.schedule,
-    });
+  async store(request, response) {
+    try {
+      const { cpf, date, schedule } = request.body;
+
+      const scheduling = await VacineScheduling.findOne({ date });
+
+      if (!scheduling)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["This date aren't available to scheduling"],
+        });
+
+      const hasAvailableSchedule = !!scheduling.schedules.find(
+        (one) => one.label === schedule
+      );
+
+      if (!hasAvailableSchedule)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["This schedule aren't available to scheduling"],
+        });
+
+      const rawCpf = await encodeCpf(cpf);
+
+      const scheduleIndex = scheduling.schedules.findIndex(
+        (one) => one.label === schedule
+      );
+
+      scheduling.schedules[scheduleIndex].scheduled = true;
+      scheduling.schedules[scheduleIndex].scheduledByUser = rawCpf;
+      await scheduling.save();
+
+      await Vacination.create({
+        rawCpf,
+        date,
+        schedule,
+      });
+
+      return response.status(201).json({
+        message: "Attendance registered",
+        date: request.body.date,
+        schedule: request.body.schedule,
+      });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
   }
 }
 
