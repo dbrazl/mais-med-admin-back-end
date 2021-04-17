@@ -11,10 +11,11 @@ import IndexHashCpfValidator from "../../application/middlewares/validators/Vaci
 import VacinationsStoreValidator from "../../application/middlewares/validators/VacinationsController/StoreValidator";
 import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
 import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
+import PharmsIndexValidator from "../../application/middlewares/validators/PharmsController/IndexValidator";
 
 const app = new Router();
 
-app.get("/pharms", PharmsController.index);
+app.get("/pharms", PharmsIndexValidator, PharmsController.index);
 app.get(
   "/pharms/medicine/available/:medicineName",
   PharmsController.indexByMedicine
