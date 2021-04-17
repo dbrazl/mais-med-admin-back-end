@@ -2,14 +2,14 @@ import { Router } from "express";
 
 import PharmsController from "../../application/controllers/PharmsController";
 import MedicinesController from "../../application/controllers/MedicinesController";
-import VacineController from "../../application/controllers/VacineController";
+import VacinationsController from "../../application/controllers/VacinationsController";
 import VacineSchedulingController from "../../application/controllers/VacineSchedulingController";
 
 import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
-import VacineIndexValidator from "../../application/middlewares/validators/VacineController/IndexValidator";
+import VacinationsIndexValidator from "../../application/middlewares/validators/VacinationsController/IndexValidator";
+import VacinationsStoreValidator from "../../application/middlewares/validators/VacinationsController/StoreValidator";
 import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
 import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
-import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreValidator";
 
 const app = new Router();
 
@@ -19,7 +19,7 @@ app.get(
   PharmsController.indexByMedicine
 );
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
-app.get("/vacines", VacineIndexValidator, VacineController.index);
+app.get("/vacines", VacinationsIndexValidator, VacinationsController.index);
 app.get(
   "/vacine/dates",
   VacineSchedulingIndexDatesValidator,
@@ -30,6 +30,6 @@ app.get(
   VacineSchedulingIndexSchudulesValidator,
   VacineSchedulingController.indexAvailableSchedules
 );
-app.post("/vacine", VacineSchedulingStoreValidator, VacineController.store);
+app.post("/vacine", VacinationsStoreValidator, VacinationsController.store);
 
 export default app;

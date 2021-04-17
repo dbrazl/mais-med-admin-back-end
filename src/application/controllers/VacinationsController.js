@@ -1,6 +1,6 @@
 import { Vacine, encodeCpf } from "../models/Vacine";
 
-class VacineController {
+class VacinationController {
   async index(request, response) {
     try {
       const { page, hashCpf } = request.query;
@@ -32,4 +32,4 @@ class VacineController {
   }
 }
 
-export default new VacineController();
+export default new VacinationController();
