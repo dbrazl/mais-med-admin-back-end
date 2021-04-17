@@ -28,10 +28,10 @@ class VacinationController {
     try {
       const { cpf } = request.body;
 
-      const rawCpf = await encodeCpf(cpf);
+      const hashCpf = await encodeCpf(cpf);
 
       return response.status(200).json({
-        rawCpf,
+        hashCpf,
       });
     } catch (error) {
       return response.status(500).json({ message: error.message });
