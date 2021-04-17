@@ -9,6 +9,7 @@ import MedicinesIndexValidator from "../../application/middlewares/validators/Me
 import VacineIndexValidator from "../../application/middlewares/validators/VacineController/IndexValidator";
 import VacineSchedulingIndexDatesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexDatesValidator";
 import VacineSchedulingIndexSchudulesValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexSchedulesValidator";
+import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreValidator";
 
 const app = new Router();
 
@@ -29,6 +30,6 @@ app.get(
   VacineSchedulingIndexSchudulesValidator,
   VacineSchedulingController.indexAvailableSchedules
 );
-app.post("/vacine", VacineController.store);
+app.post("/vacine", VacineSchedulingStoreValidator, VacineController.store);
 
 export default app;
