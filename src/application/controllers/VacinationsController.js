@@ -50,9 +50,17 @@ class VacinationController {
           reasons: ["This date aren't available to scheduling"],
         });
 
-      const hasScheduled = !!scheduling.schedules.find(
+      const foundSchedule = scheduling.schedules.find(
         (one) => one.label === schedule
-      )?.scheduled;
+      );
+
+      if (!foundSchedule)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["This schedule don't exist"],
+        });
+
+      const hasScheduled = !!foundSchedule?.scheduled;
 
       if (hasScheduled)
         return response.status(404).json({
