@@ -25,10 +25,12 @@ class PharmsController {
     }
   }
 
-  indexByMedicine(request, response) {
+  async indexByMedicine(request, response) {
     const { medicineName } = request.params;
 
-    const pharmsWithMedicine = mock
+    const pharms = await Pharms.find().select("-_id -__v");
+
+    const pharmsWithMedicine = pharms
       .map((pharm) => {
         const founded = !!pharm.medicines.find((medicine) =>
           medicine.name.toLowerCase().includes(medicineName.toLowerCase())
@@ -40,7 +42,7 @@ class PharmsController {
           ).quantity;
 
           return {
-            ...pharm,
+            ...pharm._doc,
             quantity,
           };
         }
