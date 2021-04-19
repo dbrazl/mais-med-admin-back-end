@@ -1,4 +1,5 @@
 import * as zod from "zod";
+import { CustomError } from "../../../../services/customError";
 import { errorHandler } from "../../helpers/handlers";
 
 async function StoreValidator(request, response, next) {
