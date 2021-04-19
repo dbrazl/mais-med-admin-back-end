@@ -44,7 +44,14 @@ class PharmsController {
 
   async update(request, response) {
     try {
-      const { name, email, password } = request.body;
+      const {
+        name,
+        email,
+        password,
+        neighborhood,
+        location,
+        medicines,
+      } = request.body;
       const { id } = request.params;
 
       const pharm = await Pharms.findOne({ _id: id });
@@ -58,12 +65,18 @@ class PharmsController {
       pharm.name = name;
       pharm.email = email;
       pharm.password = await encodePassword(password);
+      pharm.neighborhood = neighborhood;
+      pharm.location = location;
+      pharm.medicines = medicines;
       await pharm.save();
 
       return response.status(200).json({
         id: pharm.id,
         name,
         email,
+        neighborhood,
+        location,
+        medicines,
       });
     } catch (error) {
       return response.status(500).json({ message: error.message });
