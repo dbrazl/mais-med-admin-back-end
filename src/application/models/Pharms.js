@@ -32,6 +32,10 @@ function encodePassword(password) {
   return bcrypt.hash(password, encodeConfig.encodeLength);
 }
 
+function checkPassword({ password, hash }) {
+  return bcrypt.compare(password, hash);
+}
+
 const Pharms = model("Pharms", schema);
 
-export { Pharms, encodePassword };
+export { Pharms, encodePassword, checkPassword };
