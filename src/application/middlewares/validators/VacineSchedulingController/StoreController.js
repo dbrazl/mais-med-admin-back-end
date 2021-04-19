@@ -12,10 +12,11 @@ async function StoreValidator(request, response, next) {
     const schema = zod.object({
       date: zod.string(),
       schedules: zod.array(schedulesSchema),
+      medicineId: zod.string(),
     });
     schema.parse(request.body);
 
-    const { date, schedules } = request.body;
+    const { date, schedules, medicineId } = request.body;
 
     const dateSchema = zod
       .string()
@@ -24,6 +25,18 @@ async function StoreValidator(request, response, next) {
         message: "Date is malformmed",
       });
     dateSchema.parse(date);
+
+    const MEDICINE_ID_LEGNTH = 24;
+
+    if (medicineId.length !== MEDICINE_ID_LEGNTH)
+      throw new CustomError({
+        errors: [
+          {
+            path: ["medicineId"],
+            message: "Medicine id is malformed",
+          },
+        ],
+      });
 
     const SCHEDULE_LENGTH = 19;
     const USER_ID_LENGTH = 24;

@@ -1,6 +1,39 @@
 import { VacineScheduling } from "../models/VacineScheduling";
 import { isToday, isAfter, isBefore } from "date-fns";
 
-class VacineSchedulingController {}
+class VacineSchedulingController {
+  async store(request, response) {
+    try {
+      const { date, label, medicineId } = request.body;
+
+      const scheduling = await VacineScheduling.findOne({ medicineId, date });
+
+      if (scheduling)
+        return response.status(401).json({
+          message: "Already exist",
+          reasons: ["Scheduling already been created"],
+        });
+
+      const schedulingCreated = await VacineScheduling.create({
+        date,
+        schedules: {
+          label,
+          scheduled: false,
+          scheduledByUser: "",
+        },
+        medicineId,
+      });
+
+      return response.status(201).json({
+        id: schedulingCreated._id,
+        date,
+        schedules: schedulingCreated.schedules,
+        medicineId,
+      });
+    } catch (error) {
+      return response.status(500).json({ mesage: error.message });
+    }
+  }
+}
 
 export default new VacineSchedulingController();
