@@ -15,6 +15,7 @@ import MedicinesStoreValidator from "../../application/middlewares/validators/Me
 import MedicinesDeleteValidator from "../../application/middlewares/validators/MedicinesController/DeleteValidator";
 import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreValidator";
 import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateValidator";
+import VacineSchedulingDeleteValidator from "../../application/middlewares/validators/VacineSchedulingController/DeleteValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -44,6 +45,11 @@ app.put(
   "/vacine/schedule",
   VacineSchedulingUpdateValidator,
   VacineSchedulingController.update
+);
+app.delete(
+  "/vacine/schedule",
+  VacineSchedulingDeleteValidator,
+  VacineSchedulingController.delete
 );
 
 export default app;
