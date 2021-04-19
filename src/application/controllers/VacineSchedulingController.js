@@ -74,13 +74,8 @@ class VacineSchedulingController {
   async delete(request, response) {
     try {
       const { id } = request.params;
-      const unitId = request.user.id;
 
-      const scheduling = await VacineScheduling.findOne({
-        _id: id,
-        date,
-        unitId,
-      });
+      const scheduling = await VacineScheduling.findById(id);
 
       if (!scheduling)
         return response.status(404).json({
