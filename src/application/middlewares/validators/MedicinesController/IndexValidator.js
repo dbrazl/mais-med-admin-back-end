@@ -1,6 +1,6 @@
 import * as zod from "zod";
 import { CustomError } from "../../../../services/customError";
-import { errorHandler } from "../helpers/handlers";
+import { errorHandler } from "../../helpers/handlers";
 
 async function IndexValidator(request, response, next) {
   try {

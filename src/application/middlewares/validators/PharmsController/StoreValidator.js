@@ -1,5 +1,5 @@
 import * as zod from "zod";
-import { errorHandler } from "../helpers/handlers";
+import { errorHandler } from "../../helpers/handlers";
 
 async function StoreValidator(request, response, next) {
   try {

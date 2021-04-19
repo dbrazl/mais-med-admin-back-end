@@ -9,11 +9,16 @@ import MedicinesIndexValidator from "../../application/middlewares/validators/Me
 import PharmsStoreValidator from "../../application/middlewares/validators/PharmsController/StoreValidator";
 import PharmsUpdateValidator from "../../application/middlewares/validators/PharmsController/UpdateValidator";
 
+import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
+
 const app = new Router();
 
 app.get("/healthcheck", (request, response) => response.status(200).json());
+
+app.use(authorizationMiddleware);
+
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
 app.post("/pharms", PharmsStoreValidator, PharmsController.store);
-app.put("/users/:id", PharmsUpdateValidator, PharmsController.update);
+app.put("/users", PharmsUpdateValidator, PharmsController.update);
 
 export default app;

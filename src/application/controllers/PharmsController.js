@@ -52,7 +52,7 @@ class PharmsController {
         location,
         medicines,
       } = request.body;
-      const { id } = request.params;
+      const { id } = request;
 
       const pharm = await Pharms.findOne({ _id: id });
 
