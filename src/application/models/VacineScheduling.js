@@ -13,6 +13,7 @@ const schema = new Schema({
   date: String,
   schedules: [schedule],
   unitId: String,
+  medicineId: String,
 });
 
 const VacineScheduling = model("VacineScheduling", schema);

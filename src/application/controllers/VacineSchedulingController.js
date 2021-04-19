@@ -52,6 +52,8 @@ class VacineSchedulingController {
         unitId: id,
       });
 
+      console.log(medicineId, date, id);
+
       if (!scheduling)
         return response.status(401).json({
           message: "Not found",
