@@ -4,20 +4,20 @@ import { isToday, isAfter, isBefore } from "date-fns";
 class VacineSchedulingController {
   async store(request, response) {
     try {
-      const { date, label, medicineId } = request.body;
+      const { date, schedule, medicineId } = request.body;
 
       const scheduling = await VacineScheduling.findOne({ medicineId, date });
 
       if (scheduling)
         return response.status(401).json({
           message: "Already exist",
-          reasons: ["Scheduling already been created"],
+          reasons: ["Scheduling already been created for this date"],
         });
 
       const schedulingCreated = await VacineScheduling.create({
         date,
         schedules: {
-          label,
+          label: schedule,
           scheduled: false,
           scheduledByUser: "",
         },

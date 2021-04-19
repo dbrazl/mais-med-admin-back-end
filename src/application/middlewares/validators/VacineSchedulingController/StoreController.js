@@ -3,20 +3,14 @@ import { errorHandler } from "../../helpers/handlers";
 
 async function StoreValidator(request, response, next) {
   try {
-    const schedulesSchema = zod.object({
-      label: zod.string(),
-      scheduled: zod.boolean(),
-      scheduledByUser: zod.string(),
-    });
-
     const schema = zod.object({
       date: zod.string(),
-      schedules: zod.array(schedulesSchema),
+      schedule: zod.string(),
       medicineId: zod.string(),
     });
     schema.parse(request.body);
 
-    const { date, schedules, medicineId } = request.body;
+    const { date, schedule, medicineId } = request.body;
 
     const dateSchema = zod
       .string()
@@ -25,6 +19,18 @@ async function StoreValidator(request, response, next) {
         message: "Date is malformmed",
       });
     dateSchema.parse(date);
+
+    const SCHEDULE_LENGTH = 19;
+
+    if (schedule.length !== SCHEDULE_LENGTH)
+      throw new CustomError({
+        errors: [
+          {
+            path: ["schedule"],
+            message: `Schedule is malformed - Index: ${index}`,
+          },
+        ],
+      });
 
     const MEDICINE_ID_LEGNTH = 24;
 
@@ -37,31 +43,6 @@ async function StoreValidator(request, response, next) {
           },
         ],
       });
-
-    const SCHEDULE_LENGTH = 19;
-    const USER_ID_LENGTH = 24;
-
-    schedules.forEach((schedule, index) => {
-      if (schedule.label.length !== SCHEDULE_LENGTH)
-        throw new CustomError({
-          errors: [
-            {
-              path: ["schedule"],
-              message: `Schedule is malformed - Index: ${index}`,
-            },
-          ],
-        });
-
-      if (schedule.scheduledByUser.length !== USER_ID_LENGTH)
-        throw new CustomError({
-          errors: [
-            {
-              path: ["scheduledByUser"],
-              message: `User id is malformed - Index: ${index}`,
-            },
-          ],
-        });
-    });
 
     return next();
   } catch (error) {
