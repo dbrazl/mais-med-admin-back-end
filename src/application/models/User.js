@@ -14,4 +14,4 @@ function encodePassword(password = "") {
 
 const User = model("User", schema);
 
-export default { User, encodePassword };
+export { User, encodePassword };
