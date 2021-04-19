@@ -16,7 +16,7 @@ class UserController {
       const newUser = await User.create({
         name,
         email,
-        password: encodePassword(password),
+        password: await encodePassword(password),
       });
 
       return response.status(200).json({ id: newUser._id, name, email });
