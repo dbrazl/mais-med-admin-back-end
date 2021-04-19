@@ -13,8 +13,8 @@ import SessionStoreValidator from "../../application/middlewares/validators/Sess
 import VacinantionIndexValidator from "../../application/middlewares/validators/VacinationsController/IndexValdiator";
 import MedicinesStoreValidator from "../../application/middlewares/validators/MedicinesController/StoreValidator";
 import MedicinesDeleteValidator from "../../application/middlewares/validators/MedicinesController/DeleteValidator";
-import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreController";
-import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateController";
+import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreValidator";
+import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
