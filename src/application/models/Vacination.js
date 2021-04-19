@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 
 const schema = new Schema({
   hashCpf: String,
+  name: String,
   date: String,
   schedule: String,
 });
