@@ -68,6 +68,31 @@ class VacineSchedulingController {
       return response.status(500).json({ message: error.message });
     }
   }
+
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const unitId = request.user.id;
+
+      const scheduling = await VacineScheduling.findOne({
+        _id: id,
+        date,
+        unitId,
+      });
+
+      if (!scheduling)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Scheduling are not registered"],
+        });
+
+      await scheduling.deleteOne({ _id: id });
+
+      return response.status(204).json();
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new VacineSchedulingController();
