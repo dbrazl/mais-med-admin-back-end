@@ -47,7 +47,7 @@ app.put(
   VacineSchedulingController.update
 );
 app.delete(
-  "/vacine/schedule",
+  "/vacine/schedule/:id",
   VacineSchedulingDeleteValidator,
   VacineSchedulingController.delete
 );
