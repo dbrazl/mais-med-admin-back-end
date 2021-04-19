@@ -23,6 +23,19 @@ class MedicinesController {
       return response.status(500).json({ message: error.message });
     }
   }
+
+  async store(request, response) {
+    try {
+      const { name, quantity } = request.body;
+      const { id } = request.user;
+
+      await Medicine.create({ name, quantity, unitId: id });
+
+      return response.status(200).json({ name, quantity });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new MedicinesController();
