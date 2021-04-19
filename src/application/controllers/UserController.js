@@ -41,7 +41,7 @@ class UserController {
       user.name = name;
       user.email = email;
       user.password = await encodePassword(password);
-      user.save();
+      await user.save();
 
       return response.status(200).json({
         id: user.id,
