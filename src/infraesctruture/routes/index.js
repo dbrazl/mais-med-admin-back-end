@@ -19,6 +19,6 @@ app.use(authorizationMiddleware);
 
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
 app.post("/pharms", PharmsStoreValidator, PharmsController.store);
-app.put("/users", PharmsUpdateValidator, PharmsController.update);
+app.put("/pharms", PharmsUpdateValidator, PharmsController.update);
 
 export default app;
