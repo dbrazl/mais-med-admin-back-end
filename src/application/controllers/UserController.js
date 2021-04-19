@@ -24,6 +24,33 @@ class UserController {
       return response.status(500).json({ message: error.message });
     }
   }
+
+  async update(request, response) {
+    try {
+      const { name, email, password } = request.body;
+
+      const user = await User.findOne({ email });
+
+      if (!user)
+        return response.status(401).json({
+          message: "User does not exist",
+          resons: "The user is not registered",
+        });
+
+      user.name = name;
+      user.email = email;
+      user.password = await encodePassword(password);
+      user.save();
+
+      return response.status(200).json({
+        id: user.id,
+        name,
+        email,
+      });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new UserController();
