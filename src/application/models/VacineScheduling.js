@@ -12,6 +12,7 @@ const schedule = new Schema(
 const schema = new Schema({
   date: String,
   schedules: [schedule],
+  unitId: String,
 });
 
 const VacineScheduling = model("VacineScheduling", schema);

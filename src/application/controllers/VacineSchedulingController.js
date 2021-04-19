@@ -5,8 +5,13 @@ class VacineSchedulingController {
   async store(request, response) {
     try {
       const { date, schedule, medicineId } = request.body;
+      const { id } = request.user;
 
-      const scheduling = await VacineScheduling.findOne({ medicineId, date });
+      const scheduling = await VacineScheduling.findOne({
+        medicineId,
+        date,
+        unitId: id,
+      });
 
       if (scheduling)
         return response.status(401).json({
@@ -22,6 +27,7 @@ class VacineSchedulingController {
           scheduledByUser: "",
         },
         medicineId,
+        unitId: id,
       });
 
       return response.status(201).json({
@@ -38,8 +44,13 @@ class VacineSchedulingController {
   async update(request, response) {
     try {
       const { date, schedule, medicineId } = request.body;
+      const { id } = request.user;
 
-      const scheduling = await VacineScheduling.findOne({ medicineId, date });
+      const scheduling = await VacineScheduling.findOne({
+        medicineId,
+        date,
+        unitId: id,
+      });
 
       if (!scheduling)
         return response.status(401).json({
