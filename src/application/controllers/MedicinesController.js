@@ -10,7 +10,7 @@ class MedicinesController {
       const medicines = await Medicine.find({ unityId })
         .limit(10)
         .skip(offset)
-        .select("-_id -__v -unityId");
+        .select("-__v -unitId");
 
       if (medicines.length <= 0)
         return response.status(404).json({
@@ -29,9 +29,29 @@ class MedicinesController {
       const { name, quantity } = request.body;
       const { id } = request.user;
 
-      await Medicine.create({ name, quantity, unitId: id });
+      const medicine = await Medicine.create({ name, quantity, unitId: id });
 
-      return response.status(200).json({ name, quantity });
+      return response.status(200).json({ id: medicine._id, name, quantity });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
+
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+
+      const medicine = await Medicine.findOne({ _id: id });
+
+      if (!medicine)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Medicine does not exist"],
+        });
+
+      await Medicine.deleteOne({ _id: id });
+
+      return response.status(204).json();
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }
