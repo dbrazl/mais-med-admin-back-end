@@ -15,6 +15,6 @@ const app = new Router();
 app.get("/healthcheck", (request, response) => response.status(200).json());
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
 app.post("/users", UserStoreValidator, UserController.store);
-app.put("/users", UserUpdateValidator, UserController.update);
+app.put("/users/:id", UserUpdateValidator, UserController.update);
 
 export default app;

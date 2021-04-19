@@ -28,8 +28,9 @@ class UserController {
   async update(request, response) {
     try {
       const { name, email, password } = request.body;
+      const { id } = request.params;
 
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ _id: id });
 
       if (!user)
         return response.status(401).json({
