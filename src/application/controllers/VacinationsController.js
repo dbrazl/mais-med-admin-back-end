@@ -7,7 +7,7 @@ class VacinationController {
     const { id } = request.user;
     const offset = parseInt(page) * 10;
 
-    const vacinations = await Vacination.find({ unityId: id })
+    const vacinations = await Vacination.find({ unitId: id })
       .limit(10)
       .skip(offset)
       .select("-_id -__v");

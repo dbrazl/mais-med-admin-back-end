@@ -7,6 +7,7 @@ const schema = new Schema({
   name: String,
   date: String,
   schedule: String,
+  unitId: String,
 });
 
 const Vacination = model("Vacination", schema);
