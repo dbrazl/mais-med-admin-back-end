@@ -14,6 +14,7 @@ import VacinantionIndexValidator from "../../application/middlewares/validators/
 import MedicinesStoreValidator from "../../application/middlewares/validators/MedicinesController/StoreValidator";
 import MedicinesDeleteValidator from "../../application/middlewares/validators/MedicinesController/DeleteValidator";
 import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreController";
+import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateController";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -38,6 +39,11 @@ app.post(
   "/vacine/schedule",
   VacineSchedulingStoreValidator,
   VacineSchedulingController.store
+);
+app.put(
+  "/vacine/schedule",
+  VacineSchedulingUpdateValidator,
+  VacineSchedulingController.update
 );
 
 export default app;
