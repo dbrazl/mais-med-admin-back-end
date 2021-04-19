@@ -12,6 +12,7 @@ import PharmsUpdateValidator from "../../application/middlewares/validators/Phar
 import SessionStoreValidator from "../../application/middlewares/validators/SessionController/StoreValidator";
 import VacinantionIndexValidator from "../../application/middlewares/validators/VacinationsController/IndexValdiator";
 import MedicinesStoreValidator from "../../application/middlewares/validators/MedicinesController/StoreValidator";
+import MedicinesDeleteValidator from "../../application/middlewares/validators/MedicinesController/DeleteValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -27,5 +28,10 @@ app.post("/pharms", PharmsStoreValidator, PharmsController.store);
 app.put("/pharms", PharmsUpdateValidator, PharmsController.update);
 app.get("/vacinations", VacinantionIndexValidator, VacinationsController.index);
 app.post("/medicines", MedicinesStoreValidator, MedicinesController.store);
+app.delete(
+  "/medicines/:id",
+  MedicinesDeleteValidator,
+  MedicinesController.delete
+);
 
 export default app;
