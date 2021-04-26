@@ -18,6 +18,7 @@ import VacineSchedulingStoreValidator from "../../application/middlewares/valida
 import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateValidator";
 import VacineSchedulingDeleteValidator from "../../application/middlewares/validators/VacineSchedulingController/DeleteValidator";
 import SearchAddressValidator from "../../application/middlewares/validators/MapController/SearchAddressValidator";
+import SearchLatLongValidator from "../../application/middlewares/validators/MapController/SearchLatLongValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -57,6 +58,12 @@ app.get(
   "/map/search/address",
   SearchAddressValidator,
   MapController.searchAddress
+);
+
+app.get(
+  "/map/search/latLong",
+  SearchLatLongValidator,
+  MapController.searchLatLong
 );
 
 export default app;

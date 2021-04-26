@@ -4,8 +4,7 @@ import { errorHandler } from "../../helpers/handlers";
 async function SearchAddressValidator(request, response, next) {
   try {
     const schema = zod.object({
-      latitude: zod.number(),
-      longitude: zod.number(),
+      address: zod.string(),
     });
     schema.parse(request.query);
 
