@@ -26,7 +26,9 @@ class SessionController {
           reasons: ["Worng password"],
         });
 
-      const token = await jwt.sign({ id: pharm._id }, authConfig.secret);
+      const token = await jwt.sign({ id: pharm._id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      });
 
       return response.status(200).json({
         email,

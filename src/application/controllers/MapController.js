@@ -23,9 +23,9 @@ class Map {
 
   async searchLatLong(request, response) {
     try {
-      const { address } = request.query;
+      const { address: search } = request.query;
 
-      const query = `?address=${address}&key=${config.apiKEY}`;
+      const query = `?address=${search}&key=${config.apiKEY}`;
 
       const response = await api.get(query);
 
