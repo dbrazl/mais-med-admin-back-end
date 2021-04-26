@@ -5,6 +5,7 @@ import MedicinesController from "../../application/controllers/MedicinesControll
 import SessionController from "../../application/controllers/SessionController";
 import VacinationsController from "../../application/controllers/VacinationsController";
 import VacineSchedulingController from "../../application/controllers/VacineSchedulingController";
+import MapController from "../../application/controllers/MapController";
 
 import MedicinesIndexValidator from "../../application/middlewares/validators/MedicinesController/IndexValidator";
 import PharmsStoreValidator from "../../application/middlewares/validators/PharmsController/StoreValidator";
@@ -16,6 +17,7 @@ import MedicinesDeleteValidator from "../../application/middlewares/validators/M
 import VacineSchedulingStoreValidator from "../../application/middlewares/validators/VacineSchedulingController/StoreValidator";
 import VacineSchedulingUpdateValidator from "../../application/middlewares/validators/VacineSchedulingController/UpdateValidator";
 import VacineSchedulingDeleteValidator from "../../application/middlewares/validators/VacineSchedulingController/DeleteValidator";
+import SearchAddressValidator from "../../application/middlewares/validators/MapController/SearchAddressValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -50,6 +52,11 @@ app.delete(
   "/vacine/schedule/:id",
   VacineSchedulingDeleteValidator,
   VacineSchedulingController.delete
+);
+app.get(
+  "/map/search/address",
+  SearchAddressValidator,
+  MapController.searchAddress
 );
 
 export default app;
