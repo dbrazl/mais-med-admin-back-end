@@ -1,18 +1,19 @@
-import api from "../../services/api-google-geocoding";
 import config from "../../infraesctruture/config/map";
-
+import fetch from "node-fetch";
+const API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 class Map {
   async searchAddress(request, response) {
     try {
       const { latitude, longitude } = request.query;
 
-      const query = `?latlng=${latitude},${longitude}&key=${config.apiKEY}`;
+      const query = `?latlng=${latitude},${longitude}&key=${config.apiKey}`;
 
-      const response = await api.get(query);
+      const returned = await fetch(`${API_URL}${query}`);
+      const data = await returned.json();
 
-      const address = response.data?.results[0]?.formatted_address;
-      const neighborhood = response.data?.results[0]?.address_components?.find(
-        (one) => one?.types?.includes("sublocality")
+      const address = data?.results[0]?.formatted_address;
+      const neighborhood = data?.results[0]?.address_components?.find((one) =>
+        one?.types?.includes("sublocality")
       )?.long_name;
 
       return response.status(200).json({ address, neighborhood });
@@ -25,15 +26,16 @@ class Map {
     try {
       const { address: search } = request.query;
 
-      const query = `?address=${search}&key=${config.apiKEY}`;
+      const query = `?address=${search}&key=${config.apiKey}`;
 
-      const response = await api.get(query);
+      const returned = await fetch(`${API_URL}${query}`);
+      const data = await returned.json();
 
-      const latitude = response.data?.results[0]?.geometry?.location?.lat;
-      const longitude = response.data?.results[0]?.geometry?.location?.lng;
-      const address = response.data?.results[0]?.formatted_address;
-      const neighborhood = response.data?.results[0]?.address_components?.find(
-        (one) => one?.types?.includes("sublocality")
+      const latitude = data?.results[0]?.geometry?.location?.lat;
+      const longitude = data?.results[0]?.geometry?.location?.lng;
+      const address = data?.results[0]?.formatted_address;
+      const neighborhood = data?.results[0]?.address_components?.find((one) =>
+        one?.types?.includes("sublocality")
       )?.long_name;
 
       return response

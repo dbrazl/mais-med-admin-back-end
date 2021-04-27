@@ -27,6 +27,20 @@ const app = new Router();
 app.get("/healthcheck", (request, response) => response.status(200).json());
 app.post("/session", SessionStoreValidator, SessionController.store);
 
+// JWT para etapa de cadastro
+
+app.get(
+  "/map/search/address",
+  SearchAddressValidator,
+  MapController.searchAddress
+);
+
+app.get(
+  "/map/search/latLong",
+  SearchLatLongValidator,
+  MapController.searchLatLong
+);
+
 app.use(authorizationMiddleware);
 
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
@@ -53,17 +67,6 @@ app.delete(
   "/vacine/schedule/:id",
   VacineSchedulingDeleteValidator,
   VacineSchedulingController.delete
-);
-app.get(
-  "/map/search/address",
-  SearchAddressValidator,
-  MapController.searchAddress
-);
-
-app.get(
-  "/map/search/latLong",
-  SearchLatLongValidator,
-  MapController.searchLatLong
 );
 
 export default app;
