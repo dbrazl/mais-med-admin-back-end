@@ -1,6 +1,6 @@
 import express from "express";
 import "dotenv/config";
-import limiter from "../services/rateLimit";
+import rateLimiter from "../application/middlewares/RateLimit";
 import routes from "./routes";
 import "../infraesctruture/database";
 import cors from "cors";
@@ -15,7 +15,7 @@ class App {
   middlewares() {
     this.server.use(cors());
     this.server.use(express.json());
-    this.server.use(limiter);
+    this.server.use(rateLimiter);
   }
 
   routes() {
