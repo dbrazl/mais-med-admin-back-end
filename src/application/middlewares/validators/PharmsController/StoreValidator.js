@@ -8,19 +8,12 @@ async function StoreValidator(request, response, next) {
       longitude: zod.number(),
     });
 
-    const medicineSchema = zod.object({
-      name: zod.string(),
-      quantity: zod.number(),
-      needSchedule: zod.boolean(),
-    });
-
     const schema = zod.object({
       name: zod.string(),
       neighborhood: zod.string(),
       email: zod.string().email(),
       password: zod.string().min(6),
       location: locationSchema,
-      medicines: zod.array(medicineSchema),
     });
     schema.parse(request.body);
 

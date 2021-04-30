@@ -26,7 +26,7 @@ class PharmsController {
         password: await encodePassword(password),
         neighborhood,
         location,
-        medicines,
+        medicines: [],
       });
 
       return response.status(200).json({
@@ -35,7 +35,7 @@ class PharmsController {
         email,
         neighborhood,
         location,
-        medicines,
+        medicines: [],
       });
     } catch (error) {
       return response.status(500).json({ message: error.message });
