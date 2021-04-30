@@ -19,6 +19,7 @@ async function UpdateValidator(request, response, next) {
       name: zod.string(),
       email: zod.string().email(),
       password: zod.string().min(6),
+      address: zod.string(),
       neighborhood: zod.string(),
       location: locationSchema,
       medicines: zod.array(medicineSchema),

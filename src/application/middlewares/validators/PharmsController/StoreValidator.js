@@ -10,6 +10,7 @@ async function StoreValidator(request, response, next) {
 
     const schema = zod.object({
       name: zod.string(),
+      address: zod.string(),
       neighborhood: zod.string(),
       email: zod.string().email(),
       password: zod.string().min(6),

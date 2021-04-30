@@ -23,7 +23,7 @@ class SessionController {
       if (!samePassword)
         return response.status(401).json({
           message: "No authorizated",
-          reasons: ["Worng password"],
+          reasons: ["Wrong password"],
         });
 
       const token = await jwt.sign({ id: pharm._id }, authConfig.secret, {
@@ -31,7 +31,10 @@ class SessionController {
       });
 
       return response.status(200).json({
+        name: pharm.name,
         email,
+        address: pharm.address,
+        neighborhood: pharm.neighborhood,
         token,
       });
     } catch (error) {

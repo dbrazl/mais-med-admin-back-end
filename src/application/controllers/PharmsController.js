@@ -20,7 +20,14 @@ class PharmsController {
 
   async store(request, response) {
     try {
-      const { name, email, password, neighborhood, location } = request.body;
+      const {
+        name,
+        email,
+        password,
+        address,
+        neighborhood,
+        location,
+      } = request.body;
 
       const pharm = await Pharms.findOne({ email });
 
@@ -34,6 +41,7 @@ class PharmsController {
         name,
         email,
         password: await encodePassword(password),
+        address,
         neighborhood,
         location,
         medicines: [],
@@ -43,6 +51,7 @@ class PharmsController {
         id: newPharm._id,
         name,
         email,
+        address,
         neighborhood,
         location,
         medicines: [],
@@ -58,6 +67,7 @@ class PharmsController {
         name,
         email,
         password,
+        address,
         neighborhood,
         location,
         medicines,
@@ -75,6 +85,7 @@ class PharmsController {
       pharm.name = name;
       pharm.email = email;
       pharm.password = await encodePassword(password);
+      pharm.address = address;
       pharm.neighborhood = neighborhood;
       pharm.location = location;
       pharm.medicines = medicines;
@@ -84,6 +95,7 @@ class PharmsController {
         id: pharm.id,
         name,
         email,
+        address,
         neighborhood,
         location,
         medicines,
