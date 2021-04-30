@@ -1,6 +1,23 @@
 import { Pharms, encodePassword } from "../models/Pharms";
 
 class PharmsController {
+  async userExist(request, response) {
+    try {
+      const { email } = request.query;
+
+      const user = await Pharms.findOne({ email });
+
+      if (!user)
+        return response
+          .status(404)
+          .json({ message: "Not found", reasons: ["User don't exist"] });
+
+      return response.status(200).json({ message: "User exist!" });
+    } catch (error) {
+      await response.status(500).json({ message: error.message });
+    }
+  }
+
   async store(request, response) {
     try {
       const { name, email, password, neighborhood, location } = request.body;

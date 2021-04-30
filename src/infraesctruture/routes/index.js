@@ -19,6 +19,7 @@ import VacineSchedulingUpdateValidator from "../../application/middlewares/valid
 import VacineSchedulingDeleteValidator from "../../application/middlewares/validators/VacineSchedulingController/DeleteValidator";
 import SearchAddressValidator from "../../application/middlewares/validators/MapController/SearchAddressValidator";
 import SearchLatLongValidator from "../../application/middlewares/validators/MapController/SearchLatLongValidator";
+import PharmsUserExistValidator from "../../application/middlewares/validators/PharmsController/UserExistValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -42,6 +43,11 @@ app.get(
 );
 
 app.post("/pharms", PharmsStoreValidator, PharmsController.store);
+app.get(
+  "/pharms/user/exist",
+  PharmsUserExistValidator,
+  PharmsController.userExist
+);
 
 app.use(authorizationMiddleware);
 
