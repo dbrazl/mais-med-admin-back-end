@@ -41,10 +41,11 @@ app.get(
   MapController.searchLatLong
 );
 
+app.post("/pharms", PharmsStoreValidator, PharmsController.store);
+
 app.use(authorizationMiddleware);
 
 app.get("/medicines", MedicinesIndexValidator, MedicinesController.index);
-app.post("/pharms", PharmsStoreValidator, PharmsController.store);
 app.put("/pharms", PharmsUpdateValidator, PharmsController.update);
 app.get("/vacinations", VacinantionIndexValidator, VacinationsController.index);
 app.post("/medicines", MedicinesStoreValidator, MedicinesController.store);

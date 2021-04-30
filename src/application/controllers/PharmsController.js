@@ -3,14 +3,7 @@ import { Pharms, encodePassword } from "../models/Pharms";
 class PharmsController {
   async store(request, response) {
     try {
-      const {
-        name,
-        email,
-        password,
-        neighborhood,
-        location,
-        medicines,
-      } = request.body;
+      const { name, email, password, neighborhood, location } = request.body;
 
       const pharm = await Pharms.findOne({ email });
 
