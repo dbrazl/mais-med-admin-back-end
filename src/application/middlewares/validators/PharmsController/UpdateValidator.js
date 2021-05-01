@@ -24,7 +24,7 @@ async function UpdateValidator(request, response, next) {
         address: zod.string(),
         neighborhood: zod.string(),
         location: locationSchema,
-        medicines: zod.array(medicineSchema),
+        medicines: zod.array(medicineSchema).optional(),
       })
       .refine((data) => !(data?.password && !data?.newPassword), {
         message: "You should info new password field",

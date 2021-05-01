@@ -88,7 +88,6 @@ class PharmsController {
       pharm.address = address;
       pharm.neighborhood = neighborhood;
       pharm.location = location;
-      pharm.medicines = medicines;
 
       if (password) {
         if (await checkPassword({ password, hash: pharm.password }))
@@ -99,6 +98,8 @@ class PharmsController {
             reasons: "Password is wrong",
           });
       }
+
+      if (medicines) pharm.medicines = medicines;
 
       await pharm.save();
 

@@ -33,6 +33,7 @@ class SessionController {
       return response.status(200).json({
         name: pharm.name,
         email,
+        location: pharm.location,
         address: pharm.address,
         neighborhood: pharm.neighborhood,
         token,
