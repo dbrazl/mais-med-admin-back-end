@@ -15,15 +15,26 @@ async function UpdateValidator(request, response, next) {
       needSchedule: zod.boolean(),
     });
 
-    const schema = zod.object({
-      name: zod.string(),
-      email: zod.string().email(),
-      password: zod.string().min(6),
-      address: zod.string(),
-      neighborhood: zod.string(),
-      location: locationSchema,
-      medicines: zod.array(medicineSchema),
-    });
+    const schema = zod
+      .object({
+        name: zod.string(),
+        email: zod.string().email(),
+        password: zod.string().min(6).optional(),
+        newPassword: zod.string().min(6).optional(),
+        address: zod.string(),
+        neighborhood: zod.string(),
+        location: locationSchema,
+        medicines: zod.array(medicineSchema),
+      })
+      .refine((data) => !(data?.password && !data?.newPassword), {
+        message: "You should info new password field",
+        path: ["newPassword"],
+      })
+      .refine((data) => !(!data?.password && data?.newPassword), {
+        message: "You should info password field",
+        path: ["password"],
+      });
+
     schema.parse(request.body);
 
     return next();

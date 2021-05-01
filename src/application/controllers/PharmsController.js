@@ -1,4 +1,4 @@
-import { Pharms, encodePassword } from "../models/Pharms";
+import { Pharms, encodePassword, checkPassword } from "../models/Pharms";
 
 class PharmsController {
   async userExist(request, response) {
@@ -67,6 +67,7 @@ class PharmsController {
         name,
         email,
         password,
+        newPassword,
         address,
         neighborhood,
         location,
@@ -84,11 +85,21 @@ class PharmsController {
 
       pharm.name = name;
       pharm.email = email;
-      pharm.password = await encodePassword(password);
       pharm.address = address;
       pharm.neighborhood = neighborhood;
       pharm.location = location;
       pharm.medicines = medicines;
+
+      if (password) {
+        if (await checkPassword({ password, hash: pharm.password }))
+          pharm.password = await encodePassword(newPassword);
+        else
+          return response.status(401).json({
+            message: "Check password failure",
+            reasons: "Password is wrong",
+          });
+      }
+
       await pharm.save();
 
       return response.status(200).json({
