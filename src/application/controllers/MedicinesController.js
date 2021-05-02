@@ -3,11 +3,11 @@ import { Medicine } from "../models/Medicine";
 class MedicinesController {
   async index(request, response) {
     try {
-      const unityId = request.query.unityId;
+      const unitId = request.query.unitId;
       const page = request.query.page;
       const offset = parseInt(page) * 10;
 
-      const medicines = await Medicine.find({ unityId })
+      const medicines = await Medicine.find({ unitId })
         .limit(10)
         .skip(offset)
         .select("-__v -unitId");

@@ -6,7 +6,7 @@ async function IndexValidator(request, response, next) {
   try {
     const schema = zod.object({
       page: zod.string(),
-      unityId: zod.string(),
+      unitId: zod.string(),
     });
     schema.parse(request.query);
 
@@ -32,14 +32,14 @@ async function IndexValidator(request, response, next) {
         ],
       });
 
-    const unityId = request.query.unityId;
+    const unityId = request.query.unitId;
     const HASH_SIZE = 60;
 
     if (unityId.length !== HASH_SIZE)
       throw new CustomError({
         errors: [
           {
-            path: ["unityId"],
+            path: ["unitId"],
             message: "The hash is invalid",
           },
         ],
