@@ -28,12 +28,22 @@ class MedicinesController {
 
   async store(request, response) {
     try {
-      const { name, quantity } = request.body;
+      const { name, quantity, needSchedule } = request.body;
       const { id } = request.user;
 
       const medicine = await Medicine.create({ name, quantity, unitId: id });
 
-      return response.status(200).json({ id: medicine._id, name, quantity });
+      const pharm = await Pharms.findById(id);
+
+      pharm?.medicines = [
+        { name, quantity, needSchedule },
+        ...pharm?.medicines,
+      ];
+      await pharm.save();
+
+      return response
+        .status(200)
+        .json({ id: medicine._id, name, quantity, needSchedule });
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }

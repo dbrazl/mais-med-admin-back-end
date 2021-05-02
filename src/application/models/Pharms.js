@@ -10,14 +10,11 @@ const locationSchema = new Schema(
   { _id: false }
 );
 
-const medicineSchema = new Schema(
-  {
-    name: String,
-    quantity: Number,
-    needToSchedule: Boolean,
-  },
-  { _id: false }
-);
+const medicineSchema = new Schema({
+  name: String,
+  quantity: Number,
+  needToSchedule: Boolean,
+});
 
 const schema = new Schema({
   name: String,

@@ -6,6 +6,7 @@ async function StoreValidator(request, response, next) {
     const schema = zod.object({
       name: zod.string(),
       quantity: zod.number(),
+      needSchedule: zod.boolean(),
     });
     schema.parse(request.body);
 
