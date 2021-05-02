@@ -33,7 +33,7 @@ async function IndexValidator(request, response, next) {
       });
 
     const unityId = request.query.unitId;
-    const HASH_SIZE = 60;
+    const HASH_SIZE = 24;
 
     if (unityId.length !== HASH_SIZE)
       throw new CustomError({
