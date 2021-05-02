@@ -1,24 +1,26 @@
 import { Medicine } from "../models/Medicine";
+import { Pharms } from "../models/Pharms";
 
 class MedicinesController {
   async index(request, response) {
     try {
       const unitId = request.query.unitId;
-      const page = request.query.page;
-      const offset = parseInt(page) * 10;
 
-      const medicines = await Medicine.find({ unitId })
-        .limit(10)
-        .skip(offset)
-        .select("-__v -unitId");
+      const pharm = await Pharms.findById(unitId);
 
-      if (medicines.length <= 0)
+      if (!pharm)
         return response.status(404).json({
           message: "Not found",
-          reasons: ["Don't have medicines on this page"],
+          reasons: ["Pharm does not exist"],
         });
 
-      return response.status(200).json(medicines);
+      if (pharm?.medicines.length <= 0)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Don't have medicines"],
+        });
+
+      return response.status(200).json(pharm?.medicines);
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }
