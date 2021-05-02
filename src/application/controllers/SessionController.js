@@ -31,6 +31,7 @@ class SessionController {
       });
 
       return response.status(200).json({
+        id: pharm._id,
         name: pharm.name,
         email,
         location: pharm.location,
