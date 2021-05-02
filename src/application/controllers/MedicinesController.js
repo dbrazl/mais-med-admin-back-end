@@ -35,10 +35,7 @@ class MedicinesController {
 
       const pharm = await Pharms.findById(id);
 
-      pharm?.medicines = [
-        { name, quantity, needSchedule },
-        ...pharm?.medicines,
-      ];
+      pharm.medicines = [{ name, quantity, needSchedule }, ...pharm?.medicines];
       await pharm.save();
 
       return response

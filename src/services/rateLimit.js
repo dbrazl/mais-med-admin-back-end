@@ -4,7 +4,7 @@ import redis from "../infraesctruture/database/redis";
 const limiter = new RateLimiterRedis({
   storeClient: redis,
   keyPrefix: "ratelimit",
-  points: 1,
+  points: 2,
   duration: 1,
 });
 
