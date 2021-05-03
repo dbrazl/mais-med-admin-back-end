@@ -2,36 +2,59 @@ import * as zod from "zod";
 import { CustomError } from "../../../../services/customError";
 import { errorHandler } from "../../helpers/handlers";
 
-async function UpdateValidator(request, response, next) {
+async function VacineSchedulingValidator(request, response, next) {
   try {
     const schema = zod.object({
-      date: zod.string(),
-      schedule: zod.string(),
+      startDate: zod.string(),
+      endDate: zod.string(),
+      startHour: zod.string(),
+      endHour: zod.string(),
+      intervalTime: zod.string(),
       medicineId: zod.string(),
     });
     schema.parse(request.body);
 
-    const { date, schedule, medicineId } = request.body;
+    const {
+      startDate,
+      endDate,
+      startHour,
+      endHour,
+      intervalTime,
+      medicineId,
+    } = request.body;
 
-    const dateSchema = zod
-      .string()
-      .refine((data) => data.match(/\//g)?.length === 2 && data.split("/")[2], {
-        path: ["date"],
-        message: "Date is malformmed",
-      });
-    dateSchema.parse(date);
+    const dates = { startDate, endDate };
 
-    const SCHEDULE_LENGTH = 19;
-
-    if (schedule.length !== SCHEDULE_LENGTH)
-      throw new CustomError({
-        errors: [
+    for (const [key, value] of Object.entries(dates)) {
+      const dateSchema = zod
+        .string()
+        .refine(
+          (data) => data.match(/\//g)?.length === 2 && data.split("/")[2],
           {
-            path: ["schedule"],
-            message: `Schedule is malformed - Index: ${index}`,
-          },
-        ],
-      });
+            path: [key],
+            message: "Date is malformmed",
+          }
+        );
+      dateSchema.parse(value);
+    }
+
+    const times = { startHour, endHour, intervalTime };
+
+    for (const [key, value] of Object.entries(times)) {
+      const timeSchema = zod
+        .string()
+        .refine(
+          (data) =>
+            data.match(/:/g)?.length === 1 &&
+            data.split(":")[0]?.length === 2 &&
+            data.split(":")[1]?.length === 2,
+          {
+            path: [key],
+            message: "Hour is malformmed",
+          }
+        );
+      timeSchema.parse(value);
+    }
 
     const MEDICINE_ID_LEGNTH = 24;
 
@@ -51,4 +74,4 @@ async function UpdateValidator(request, response, next) {
   }
 }
 
-export default UpdateValidator;
+export default VacineSchedulingValidator;
