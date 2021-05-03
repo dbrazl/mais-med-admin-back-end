@@ -18,4 +18,9 @@ const schema = new Schema({
 
 const VacineScheduling = model("VacineScheduling", schema);
 
-export { VacineScheduling };
+function brazilianDateToUSADate(date) {
+  const [day, month, year] = date?.split("/");
+  return `${month}/${day}/${year}`;
+}
+
+export { VacineScheduling, brazilianDateToUSADate };

@@ -1,41 +1,86 @@
-import { VacineScheduling } from "../models/VacineScheduling";
-import { isToday, isAfter, isBefore } from "date-fns";
+import {
+  VacineScheduling,
+  brazilianDateToUSADate,
+} from "../models/VacineScheduling";
+import {
+  format,
+  addDays,
+  subDays,
+  differenceInCalendarDays,
+  addMilliseconds,
+  subMilliseconds,
+} from "date-fns";
 
 class VacineSchedulingController {
   async store(request, response) {
     try {
-      const { date, schedule, medicineId } = request.body;
+      const {
+        startDate,
+        endDate,
+        startHour,
+        endHour,
+        intervalTime,
+        medicineId,
+      } = request.body;
       const { id } = request.user;
 
-      const scheduling = await VacineScheduling.findOne({
-        medicineId,
-        date,
-        unitId: id,
-      });
+      await VacineScheduling.deleteMany({ medicineId, unitId: id });
 
-      if (scheduling)
-        return response.status(401).json({
-          message: "Already exist",
-          reasons: ["Scheduling already been created for this date"],
+      const firstDate = new Date(brazilianDateToUSADate(startDate));
+      const lastDate = new Date(brazilianDateToUSADate(endDate));
+      let oneDayBehindFirstDate = subDays(firstDate, 1);
+
+      const firstHour = new Date(`01/01/2021 ${startHour}`);
+      const lastHour = new Date(`01/01/2021 ${endHour}`);
+      const intervalMiliseconds =
+        new Date(`01/01/2021 ${intervalTime}`).getTime() -
+        new Date(`01/01/2021`).getTime();
+      let oneIntervalBehindFirstHour = subMilliseconds(
+        firstHour,
+        intervalMiliseconds
+      );
+
+      const numberOfIntervals = Math.floor(
+        (lastHour.getTime() - firstHour.getTime()) / intervalMiliseconds
+      );
+
+      const days = differenceInCalendarDays(lastDate, firstDate) + 1;
+
+      for (let i = 0; i < days; i++) {
+        oneDayBehindFirstDate = addDays(oneDayBehindFirstDate, 1);
+
+        let schedules = [];
+
+        for (let j = 0; j < numberOfIntervals; j++) {
+          oneIntervalBehindFirstHour = addMilliseconds(
+            oneIntervalBehindFirstHour,
+            intervalMiliseconds
+          );
+
+          const schedule = `${format(
+            oneIntervalBehindFirstHour,
+            "hh:mm"
+          )} a ${format(
+            addMilliseconds(oneIntervalBehindFirstHour, intervalMiliseconds),
+            "hh:mm"
+          )} horas`;
+
+          schedules.push({
+            label: schedule,
+            scheduled: false,
+            scheduledByUser: "",
+          });
+        }
+
+        await VacineScheduling.create({
+          date: format(oneDayBehindFirstDate, "dd/MM/yyyy"),
+          schedules,
+          medicineId,
+          unitId: id,
         });
+      }
 
-      const schedulingCreated = await VacineScheduling.create({
-        date,
-        schedules: {
-          label: schedule,
-          scheduled: false,
-          scheduledByUser: "",
-        },
-        medicineId,
-        unitId: id,
-      });
-
-      return response.status(201).json({
-        id: schedulingCreated._id,
-        date,
-        schedules: schedulingCreated.schedules,
-        medicineId,
-      });
+      return response.status(201).json();
     } catch (error) {
       return response.status(500).json({ mesage: error.message });
     }
