@@ -12,6 +12,28 @@ import {
 } from "date-fns";
 
 class VacineSchedulingController {
+  async index(request, response) {
+    try {
+      const { medicineId } = request.query;
+      const { id } = request.user;
+
+      const schedule = await VacineScheduling.findOne({
+        medicineId,
+        unitId: id,
+      });
+
+      if (!schedule)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Schedule are not registered"],
+        });
+
+      return response.status(200).json(schedule);
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
+
   async store(request, response) {
     try {
       const {
@@ -75,6 +97,13 @@ class VacineSchedulingController {
         await VacineScheduling.create({
           date: format(oneDayBehindFirstDate, "dd/MM/yyyy"),
           schedules,
+          scheduleInfo: {
+            startDate,
+            endDate,
+            startHour,
+            endHour,
+            intervalTime,
+          },
           medicineId,
           unitId: id,
         });

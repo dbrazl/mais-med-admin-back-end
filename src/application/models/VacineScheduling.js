@@ -9,9 +9,18 @@ const schedule = new Schema(
   { _id: false }
 );
 
+const scheduleInfo = new Schema({
+  startDate: String,
+  endDate: String,
+  startHour: String,
+  endHour: String,
+  intervalTime: String,
+});
+
 const schema = new Schema({
   date: String,
   schedules: [schedule],
+  scheduleInfo,
   unitId: String,
   medicineId: String,
 });

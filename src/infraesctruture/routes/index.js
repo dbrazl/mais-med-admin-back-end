@@ -20,6 +20,7 @@ import VacineSchedulingDeleteValidator from "../../application/middlewares/valid
 import SearchAddressValidator from "../../application/middlewares/validators/MapController/SearchAddressValidator";
 import SearchLatLongValidator from "../../application/middlewares/validators/MapController/SearchLatLongValidator";
 import PharmsUserExistValidator from "../../application/middlewares/validators/PharmsController/UserExistValidator";
+import VacineSchedulinfIndexValidator from "../../application/middlewares/validators/VacineSchedulingController/IndexValidator";
 
 import authorizationMiddleware from "../../application/middlewares/Authorization/JWT";
 
@@ -59,6 +60,11 @@ app.delete(
   "/medicines/:id",
   MedicinesDeleteValidator,
   MedicinesController.delete
+);
+app.get(
+  "/vacine/schedule",
+  VacineSchedulinfIndexValidator,
+  VacineSchedulingController.index
 );
 app.post(
   "/vacine/schedule",
