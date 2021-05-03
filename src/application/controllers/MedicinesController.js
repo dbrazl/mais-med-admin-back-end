@@ -58,6 +58,55 @@ class MedicinesController {
     }
   }
 
+  async update(request, response) {
+    try {
+      const { id: medicineId, name, quantity, needSchedule } = request.body;
+      const { id } = request.user;
+
+      const medicine = await Medicine.findById(medicineId);
+
+      if (!medicine)
+        return response.status(404).json({
+          message: "Not found",
+          reasos: ["Medicine are not register"],
+        });
+
+      const pharm = await Pharms.findOne({ _id: id });
+
+      if (!pharm)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Pharm are not resgitered"],
+        });
+
+      medicine.name = name;
+      medicine.quantity = quantity;
+      await medicine.save();
+
+      pharm.medicines = pharm?.medicines?.map((medicine) => {
+        if (medicine.id === medicineId)
+          return {
+            id: medicine.id,
+            name,
+            quantity,
+            needToSchedule: needSchedule,
+          };
+
+        return medicine;
+      });
+      await pharm.save();
+
+      return response.status(200).json({
+        id: medicine._id,
+        name,
+        quantity,
+        needToSchedule: needSchedule,
+      });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
+  }
+
   async delete(request, response) {
     try {
       const { id } = request.params;
