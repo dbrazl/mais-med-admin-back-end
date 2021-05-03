@@ -9,13 +9,16 @@ const schedule = new Schema(
   { _id: false }
 );
 
-const scheduleInfo = new Schema({
-  startDate: String,
-  endDate: String,
-  startHour: String,
-  endHour: String,
-  intervalTime: String,
-});
+const scheduleInfo = new Schema(
+  {
+    startDate: String,
+    endDate: String,
+    startHour: String,
+    endHour: String,
+    intervalTime: String,
+  },
+  { _id: false }
+);
 
 const schema = new Schema({
   date: String,

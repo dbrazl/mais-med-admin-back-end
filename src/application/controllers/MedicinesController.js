@@ -31,6 +31,8 @@ class MedicinesController {
       const { name, quantity, needSchedule } = request.body;
       const { id } = request.user;
 
+      const medicine = await Medicine.create({ name, quantity, unitId: id });
+
       const pharm = await Pharms.findOne({ _id: id });
 
       if (!pharm)
@@ -40,12 +42,10 @@ class MedicinesController {
         });
 
       pharm.medicines = [
-        { name, quantity, needToSchedule: needSchedule },
+        { id: medicine._id, name, quantity, needToSchedule: needSchedule },
         ...pharm?.medicines,
       ];
       await pharm.save();
-
-      const medicine = await Medicine.create({ name, quantity, unitId: id });
 
       return response.status(200).json({
         id: medicine._id,
