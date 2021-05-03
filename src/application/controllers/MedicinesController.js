@@ -31,16 +31,28 @@ class MedicinesController {
       const { name, quantity, needSchedule } = request.body;
       const { id } = request.user;
 
-      const medicine = await Medicine.create({ name, quantity, unitId: id });
+      const pharm = await Pharms.findOne({ _id: id });
 
-      const pharm = await Pharms.findById(id);
+      if (!pharm)
+        return response.status(404).json({
+          message: "Not found",
+          reasons: ["Pharm are not resgitered"],
+        });
 
-      pharm.medicines = [{ name, quantity, needSchedule }, ...pharm?.medicines];
+      pharm.medicines = [
+        { name, quantity, needToSchedule: needSchedule },
+        ...pharm?.medicines,
+      ];
       await pharm.save();
 
-      return response
-        .status(200)
-        .json({ id: medicine._id, name, quantity, needSchedule });
+      const medicine = await Medicine.create({ name, quantity, unitId: id });
+
+      return response.status(200).json({
+        id: medicine._id,
+        name,
+        quantity,
+        needToSchedule: needSchedule,
+      });
     } catch (error) {
       return response.status(500).json({ message: error.message });
     }
